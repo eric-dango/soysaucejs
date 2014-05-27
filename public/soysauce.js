@@ -3970,6 +3970,7 @@ soysauce.overlay = (function() {
     var self = this;
     var showCloseButton = true;
     var additionalOptions = "";
+    var zoomCloseButtonText = carousel.widget.attr("data-ss-zoom-close-text");
 
     this.on(null, css, showCloseButton);
 
@@ -3985,6 +3986,10 @@ soysauce.overlay = (function() {
 
     $carousel = this.content.find("[data-ss-widget='carousel']");
     $carousel.append(items);
+    
+    if (zoomCloseButtonText) {
+      this.overlay.find("[data-ss-component='close']").text(zoomCloseButtonText);
+    }
 
     this.startingOrientation = soysauce.browser.getOrientation();
 
