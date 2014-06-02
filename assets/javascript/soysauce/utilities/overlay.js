@@ -19,22 +19,38 @@ soysauce.overlay = (function() {
   };
 
   Overlay.prototype.init = function(selector) {
-    var div = document.createElement("div");
     var self = this;
+    var div;
 
-    if ($("[data-ss-utility='overlay']").length) return false;
+    if ($("[data-ss-utility='overlay']").length) {
+      div = $("[data-ss-utility='overlay']");
+    } else {
+      div = document.createElement("div");
+      div.setAttribute("data-ss-utility", "overlay");
 
-    div.setAttribute("data-ss-utility", "overlay");
-    div.setAttribute("data-ss-state", "inactive");
-
-    document.body.appendChild(div);
+      if(selector && $(selector).length) {
+        $(selector).prepend(div);
+      } else {
+        if(selector) {
+          console.warn("Soysauce: The selector provided to overlay.init was invalid or did not match any elements. The overlay will be attached to the body element.");
+        }
+        document.body.appendChild(div);
+      }
+    }
 
     this.overlay = $("[data-ss-utility='overlay']");
+    this.overlay.attr("data-ss-state", "inactive");
 
-    this.overlay.append("<div data-ss-component='close'>tap to close</div>");
+    if(!this.overlay.find("[data-ss-component='close']").length) {
+      this.overlay.append("<div data-ss-component='close'>tap to close</div>");
+    }
+
     this.close = this.overlay.find("[data-ss-component='close']");
 
-    this.overlay.append("<div data-ss-component='content'></div>");
+    if(!this.overlay.find("[data-ss-component='content']").length){
+      this.overlay.append("<div data-ss-component='content'></div>");
+    }
+
     this.content = this.overlay.find("[data-ss-component='content']");
 
     this.close.on("click", function() {
@@ -133,7 +149,7 @@ soysauce.overlay = (function() {
 
     $carousel = this.content.find("[data-ss-widget='carousel']");
     $carousel.append(items);
-    
+
     if (zoomCloseButtonText) {
       this.overlay.find("[data-ss-component='close']").text(zoomCloseButtonText);
     }
