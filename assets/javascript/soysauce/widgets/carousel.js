@@ -989,7 +989,7 @@ soysauce.carousels = (function() {
             }
             setTranslate(self.container[0], self.offset);
             self.looping = false;
-          }, 0);
+          }, 20);
         }, 0);
       }
       // Slide Forward Rewind
@@ -1010,7 +1010,7 @@ soysauce.carousels = (function() {
             }
             setTranslate(self.container[0], self.offset);
             self.looping = false;
-          }, 0);
+          }, 20);
         }, 0);
       }
       else {
