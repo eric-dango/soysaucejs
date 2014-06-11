@@ -951,7 +951,7 @@ soysauce.carousels = (function() {
     }
 
     this.offset = x;
-    setTranslate(this.container[0], x);
+
 
     this.container.attr("data-ss-state", "intransit");
     this.widget.attr("data-ss-state", "intransit");
@@ -1014,8 +1014,12 @@ soysauce.carousels = (function() {
         }, 0);
       }
       else {
+        setTranslate(this.container[0], x);
         this.infiniteID = null;
       }
+    }
+    else {
+      setTranslate(this.container[0], x);
     }
   };
 
