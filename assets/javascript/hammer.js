@@ -1364,21 +1364,7 @@ Hammer.gestures.Transform = {
   }
 };
 
-  // Based off Lo-Dash's excellent UMD wrapper (slightly modified) - https://github.com/bestiejs/lodash/blob/master/lodash.js#L5515-L5543
-  // some AMD build optimizers, like r.js, check for specific condition patterns like the following:
-  if(typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-    // define as an anonymous module
-    define(function() {
-      return Hammer;
-    });
-    // check for `exports` after `define` in case a build optimizer adds an `exports` object
-  }
-  else if(typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = Hammer;
-  }
-  else {
-    window.Hammer = Hammer;
-  }
+  window.Hammer = Hammer;
 })(this);
 
 /* jQuery plugin for Hammer.JS - v1.0.1 - 2014-02-03
@@ -1483,14 +1469,6 @@ function setup(Hammer, $) {
   };
 }
 
-  // Based off Lo-Dash's excellent UMD wrapper (slightly modified) - https://github.com/bestiejs/lodash/blob/master/lodash.js#L5515-L5543
-  // some AMD build optimizers, like r.js, check for specific condition patterns like the following:
-  if(typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-    // define as an anonymous module
-    define(['hammerjs', 'jquery'], setup);
+  setup(window.Hammer, window.jQuery || window.Zepto);
 
-  }
-  else {
-    setup(window.Hammer, window.jQuery || window.Zepto);
-  }
 })(this);
