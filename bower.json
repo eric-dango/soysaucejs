@@ -9,7 +9,7 @@
   ],
   "dependencies": {
     "jquery": "~1.9.1",
-    "fastclick": "0.6.11"
+    "fastclick": "1.0.2"
   },
   "homepage": "http://www.soysaucejs.com/",
   "authors": [
