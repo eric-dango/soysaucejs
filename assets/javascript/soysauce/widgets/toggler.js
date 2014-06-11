@@ -34,6 +34,7 @@ soysauce.togglers = (function() {
       }
 
       this.button.click(function(e) {
+        if (self.opened) return false;
         self.toggle(null, e);
       });
 
