@@ -34,6 +34,7 @@
 }
 [data-ss-widget="toggler"][data-ss-options*="slide"] [data-ss-component="content"][data-ss-state="closed"] {
   height: 0 !important;
+  font-size: 0;
 }
 
 [data-ss-widget="toggler"] [data-ss-component="button"] {
