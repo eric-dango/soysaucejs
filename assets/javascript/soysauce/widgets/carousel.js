@@ -317,15 +317,20 @@ soysauce.carousels = (function() {
     this.container.imagesLoaded(function(items) {
       var firstItem = self.items.first();
       var margin = parseInt(firstItem.css("margin-left"), 10) + parseInt(firstItem.css("margin-right"), 10);
+      var peekedWidgetWidth = self.widgetWidth;
+
+      if(self.peek) {
+        peekedWidgetWidth -= self.peekWidth * 2;
+      }
 
       if (self.multi) {
         if (self.multiVars.minWidth > 0) {
-          self.multiVars.numItems = Math.floor(self.widgetWidth / self.multiVars.minWidth);
+          self.multiVars.numItems = Math.floor(peekedWidgetWidth / self.multiVars.minWidth);
         }
-        self.itemWidth = self.widgetWidth / self.multiVars.numItems;
+        self.itemWidth = peekedWidgetWidth / self.multiVars.numItems;
       }
       else {
-        self.itemWidth = self.widgetWidth;
+        self.itemWidth = peekedWidgetWidth;
       }
 
       $(window).load(function() {
@@ -333,7 +338,6 @@ soysauce.carousels = (function() {
       });
 
       if (self.peek) {
-        self.itemWidth -= self.peekWidth*2;
         switch (self.peekAlign) {
           case "center":
             self.offset += self.peekWidth;
@@ -1173,22 +1177,6 @@ soysauce.carousels = (function() {
       this.enableSwipe();
     }
 
-    if (this.multi) {
-      if (this.multiVars.minWidth) {
-        this.multiVars.numItems = Math.floor(this.widgetWidth / this.multiVars.minWidth)
-      }
-      this.itemWidth = this.widgetWidth / this.multiVars.numItems;
-    }
-
-    prevState = this.container.attr("data-ss-state");
-
-    if (this.multi) {
-      diff = this.widgetWidth - (this.itemWidth * this.multiVars.numItems);
-    }
-    else {
-      diff = this.widgetWidth - this.itemWidth;
-    }
-
     if (this.peek) {
       if (this.responsivePeek) {
         switch (soysauce.browser.getOrientation()) {
@@ -1200,8 +1188,28 @@ soysauce.carousels = (function() {
             break;
         }
       }
+    }
 
-      this.itemWidth -= this.peekWidth*2;
+    var peekedWidgetWidth = this.widgetWidth;
+
+    if(this.peek) {
+      peekedWidgetWidth -= this.peekWidth * 2;
+    }
+
+    if (this.multi) {
+      if (this.multiVars.minWidth) {
+        this.multiVars.numItems = Math.floor(peekedWidgetWidth / this.multiVars.minWidth)
+      }
+      this.itemWidth = peekedWidgetWidth / this.multiVars.numItems;
+    }
+
+    prevState = this.container.attr("data-ss-state");
+
+    if (this.multi) {
+      diff = peekedWidgetWidth - (this.itemWidth * this.multiVars.numItems);
+    }
+    else {
+      diff = peekedWidgetWidth - this.itemWidth;
     }
 
     this.itemWidth += diff;
