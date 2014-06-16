@@ -1,32 +1,31 @@
 (function(window, $, soysauce) {
-  soysauce.destroy = function(selector, removeWidget) {
+    soysauce.destroy = function(selector, removeWidget) {
 
-    try {
-      var widget = soysauce.fetch(selector);
-      var $widget = widget.widget;
+        try {
+            var widget = soysauce.fetch(selector);
+            var $widget = widget.widget;
 
-      $widget.find("[data-ss-widget][data-ss-id]").each(function() {
-        soysauce.destroy(this);
-      });
+            $widget.find("[data-ss-widget][data-ss-id]").each(function() {
+                soysauce.destroy(this);
+            });
 
-      $widget.off("*");
-      $widget.hammer().off("*");
-      $widget.empty();
-      $widget.off();
-      $widget.hammer().off();
+            $widget.off("*");
+            $widget.hammer().off("*");
+            $widget.empty();
+            $widget.off();
+            $widget.hammer().off();
 
-      if (removeWidget) {
-        $widget.remove();
-      }
+            if (removeWidget) {
+                $widget.remove();
+            }
 
-      delete soysauce.widgets[widget.id - 1];
+            delete soysauce.widgets[widget.id - 1];
 
-      return true;
+            return true;
+        } catch (e) {
+            console.warn("Soysauce: could not destroy widget with id '" + widget.id + "'. Possible memory leaks. Message: " + e.message);
+        }
+
+        return false;
     }
-    catch(e) {
-      console.warn("Soysauce: could not destroy widget with id '" + widget.id + "'. Possible memory leaks. Message: " + e.message);
-    }
-
-    return false;
-  }
-})(window, $, soysauce, null);
+})(window, jQuery, soysauce, null);
