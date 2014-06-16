@@ -1,4 +1,4 @@
-soysauce.overlay = (function() {
+soysauce.overlay = (function($) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
   var $body = $("body");
   var $viewport = $("meta[name='viewport']");
@@ -28,10 +28,10 @@ soysauce.overlay = (function() {
       div = document.createElement("div");
       div.setAttribute("data-ss-utility", "overlay");
 
-      if(selector && $(selector).length) {
+      if (selector && $(selector).length) {
         $(selector).prepend(div);
       } else {
-        if(selector) {
+        if (selector) {
           console.warn("Soysauce: The selector provided to overlay.init was invalid or did not match any elements. The overlay will be attached to the body element.");
         }
         document.body.appendChild(div);
@@ -41,13 +41,13 @@ soysauce.overlay = (function() {
     this.overlay = $("[data-ss-utility='overlay']");
     this.overlay.attr("data-ss-state", "inactive");
 
-    if(!this.overlay.find("[data-ss-component='close']").length) {
+    if (!this.overlay.find("[data-ss-component='close']").length) {
       this.overlay.append("<div data-ss-component='close'>tap to close</div>");
     }
 
     this.close = this.overlay.find("[data-ss-component='close']");
 
-    if(!this.overlay.find("[data-ss-component='content']").length){
+    if (!this.overlay.find("[data-ss-component='content']").length) {
       this.overlay.append("<div data-ss-component='content'></div>");
     }
 
@@ -80,12 +80,11 @@ soysauce.overlay = (function() {
         try {
           JSON.stringify(css);
           self.overlay.css(css);
-        }
-        catch(e) {
+        } catch (e) {
           console.warn("Soysauce: Could not attach css; need to pass JSON css object");
         }
       }
-      self.overlay.attr("data-ss-state","active");
+      self.overlay.attr("data-ss-state", "active");
       self.isOn = true;
     }, 0);
   };
@@ -94,7 +93,7 @@ soysauce.overlay = (function() {
     if (!this.isOn) return;
 
     this.isOn = false;
-    this.overlay.attr("data-ss-state","inactive").removeAttr("style").hide();
+    this.overlay.attr("data-ss-state", "inactive").removeAttr("style").hide();
     this.overlay.appendTo("body");
 
     this.content.find("[data-ss-widget]").each(function() {
@@ -121,8 +120,7 @@ soysauce.overlay = (function() {
   Overlay.prototype.toggle = function() {
     if (this.isOn) {
       this.off();
-    }
-    else {
+    } else {
       this.on();
     }
   };
@@ -139,8 +137,7 @@ soysauce.overlay = (function() {
 
     if (carousel.infinite) {
       items = items.slice(1, carousel.numChildren - 1);
-    }
-    else {
+    } else {
       additionalOptions += "finite";
     }
 
@@ -179,4 +176,4 @@ soysauce.overlay = (function() {
 
   return new Overlay();
 
-})();
+})(jQuery);

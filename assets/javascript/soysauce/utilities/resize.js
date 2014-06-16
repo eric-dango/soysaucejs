@@ -18,11 +18,10 @@
           if (widget.itemWidth) {
             widget.widget.trigger("SSWidgetResized");
           }
-        }
-        else {
+        } else {
           widget.widget.trigger("SSWidgetResized");
         }
       });
     }, 30);
   });
-})(window, $, soysauce, null);
+})(window, jQuery, soysauce, null);
