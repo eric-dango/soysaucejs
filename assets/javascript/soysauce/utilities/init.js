@@ -16,16 +16,14 @@
     $(fastclickSelectors).each(function() {
       try {
         soysauce.vars.fastclick.push(FastClick.attach(this));
-      }
-      catch(e) {
+      } catch (e) {
         console.warn("Soysauce: Could not attach Fastclick listener on soysauce component. " + e.message);
       }
     });
 
     if (!selector) {
       set = $("[data-ss-widget]:not([data-ss-id]), [data-ss-component='button'][data-ss-toggler-id]");
-    }
-    else {
+    } else {
       set = $(selector);
     }
 
@@ -81,15 +79,13 @@
         ret = true;
         if ($this.attr("data-ss-defer") !== undefined) {
           widget.defer = true;
-        }
-        else {
+        } else {
           $this.imagesLoaded(function() {
             widget.initialized = true;
             $this.trigger("SSWidgetReady");
           });
         }
-      }
-      else {
+      } else {
         $this.removeAttr("data-ss-id");
         --soysauce.vars.idCount;
       }
@@ -115,8 +111,7 @@
             $(obj.widget).trigger("SSWidgetReady").removeAttr("data-ss-defer");
             return;
           }
-        }
-        else {
+        } else {
           widget.widget.on("SSWidgetReady", function() {
             if (++deferCount === innerWidgets.length) {
               $(obj.widget).trigger("SSWidgetReady").removeAttr("data-ss-defer");
@@ -128,8 +123,7 @@
     // Set HammerJS Options
     try {
       Hammer.gestures.Swipe.defaults.swipe_velocity = 0.6;
-    }
-    catch(e) {
+    } catch (e) {
       console.warn("Soysauce: Error setting options with HammerJS");
       console.error(e);
     }
@@ -137,4 +131,4 @@
     $(window).trigger("SSReady");
   });
 
-})(window, $, soysauce, null);
+})(window, jQuery, soysauce, null);

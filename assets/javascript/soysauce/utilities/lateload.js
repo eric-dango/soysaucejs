@@ -1,7 +1,7 @@
 soysauce.lateload = function(selector) {
-  
+
   function loadItem(selector) {
-    var curr = $(selector);
+    var curr = jQuery(selector);
     var val = curr.attr("data-ss-ll-src");
     if (val) {
       curr.attr("src", val).removeAttr("data-ss-ll-src");
@@ -9,19 +9,18 @@ soysauce.lateload = function(selector) {
     }
     return false;
   }
-  
+
   if (selector) {
     return loadItem(selector);
-  }
-  else {
-    $(document).on("DOMContentLoaded", function() {
-      $("[data-ss-ll-src][data-ss-options='dom']").each(function(i, e) {
+  } else {
+    jQuery(document).on("DOMContentLoaded", function() {
+      jQuery("[data-ss-ll-src][data-ss-options='dom']").each(function(i, e) {
         loadItem(e);
       });
     });
-    $(window).on("load", function() {
-      if (!$("[data-ss-ll-src][data-ss-options='load']")) return;
-      $("[data-ss-ll-src][data-ss-options='load']").each(function(i, e) {
+    jQuery(window).on("load", function() {
+      if (!jQuery("[data-ss-ll-src][data-ss-options='load']")) return;
+      jQuery("[data-ss-ll-src][data-ss-options='load']").each(function(i, e) {
         loadItem(e);
       });
     });

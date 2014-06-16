@@ -22,11 +22,10 @@
       delete soysauce.widgets[widget.id - 1];
 
       return true;
-    }
-    catch(e) {
+    } catch (e) {
       console.warn("Soysauce: could not destroy widget with id '" + widget.id + "'. Possible memory leaks. Message: " + e.message);
     }
 
     return false;
   }
-})(window, $, soysauce, null);
+})(window, jQuery, soysauce, null);
