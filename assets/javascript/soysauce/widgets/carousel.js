@@ -1,4 +1,4 @@
-soysauce.carousels = (function() {
+soysauce.carousels = (function($) {
   // Shared Default Globals
   var AUTOSCROLL_INTERVAL = 5000;
   var PEEK_WIDTH = 20;
@@ -16,7 +16,7 @@ soysauce.carousels = (function() {
     var activeDotIndex;
 
     // Base Variables
-    this.widget = jQuery(selector);
+    this.widget = $(selector);
     this.index = 0;
     this.maxIndex;
     this.container;
@@ -292,13 +292,13 @@ soysauce.carousels = (function() {
       } else if (this.index > this.maxIndex) {
         this.index = this.maxIndex;
       }
-      jQuery(this.items[this.index]).attr("data-ss-state", "active");
+      $(this.items[this.index]).attr("data-ss-state", "active");
     } else {
       if (this.multi) {
-        var $items = jQuery(this.items.slice(0, this.multiVars.numItems));
+        var $items = $(this.items.slice(0, this.multiVars.numItems));
         $items.attr("data-ss-state", "active");
       } else {
-        jQuery(this.items[this.index]).attr("data-ss-state", "active");
+        $(this.items[this.index]).attr("data-ss-state", "active");
       }
     }
 
@@ -319,7 +319,7 @@ soysauce.carousels = (function() {
         self.itemWidth = self.widgetWidth;
       }
 
-      jQuery(window).load(function() {
+      $(window).load(function() {
         self.handleResize();
       });
 
@@ -367,7 +367,7 @@ soysauce.carousels = (function() {
         }
 
         self.widget.trigger("SSClick");
-        jQuery(e.target).trigger("click");
+        $(e.target).trigger("click");
       });
     }
     // For desktop only
@@ -436,7 +436,7 @@ soysauce.carousels = (function() {
       }
     }
 
-    this.currentItem = jQuery(this.items.get(self.index));
+    this.currentItem = $(this.items.get(self.index));
 
     if (this.overlay) {
       this.zoomElement = this.currentItem;
@@ -455,7 +455,7 @@ soysauce.carousels = (function() {
     }
 
     if (this.autoheight) {
-      var height = jQuery(this.items[this.index]).outerHeight(true);
+      var height = $(this.items[this.index]).outerHeight(true);
       this.widget.css("min-height", height);
     }
 
@@ -466,7 +466,7 @@ soysauce.carousels = (function() {
         self.container.attr("data-ss-state", "ready");
       }, 0);
       if (self.autoheight) {
-        var height = jQuery(self.items[self.index]).outerHeight(true);
+        var height = $(self.items[self.index]).outerHeight(true);
         self.widget.css("height", height);
         window.setTimeout(function() {
           self.widget.css("min-height", "0px");
@@ -800,7 +800,7 @@ soysauce.carousels = (function() {
   };
 
   Carousel.prototype.handleSwipe = function(e) {
-    var targetComponent = jQuery(e.target).attr("data-ss-component");
+    var targetComponent = $(e.target).attr("data-ss-component");
     var self = this;
     var angle = Math.abs(e.gesture.angle);
 
@@ -910,7 +910,7 @@ soysauce.carousels = (function() {
   Carousel.prototype.gotoPos = function(x, jumping, resettingPosition) {
     var self = this;
 
-    this.currentItem = jQuery(this.items.get(self.index));
+    this.currentItem = $(this.items.get(self.index));
 
     if (this.overlay) {
       this.resetZoomState();
@@ -987,7 +987,7 @@ soysauce.carousels = (function() {
   };
 
   Carousel.prototype.slideForward = function() {
-    var $dots = (this.infinite) ? jQuery(this.dots[this.index - 1]) : jQuery(this.dots[this.index]),
+    var $dots = (this.infinite) ? $(this.dots[this.index - 1]) : $(this.dots[this.index]),
       lastInfiniteIndex = this.numChildren - 1,
       stepSize = (this.multi) ? this.multiVars.stepSize * this.itemWidth : this.itemWidth;
 
@@ -998,31 +998,31 @@ soysauce.carousels = (function() {
     $dots.attr("data-ss-state", "inactive");
 
     if (this.multi) {
-      var $items = jQuery(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
+      var $items = $(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
       $items.attr("data-ss-state", "inactive");
       this.index++;
     } else {
-      jQuery(this.items[this.index++]).attr("data-ss-state", "inactive");
+      $(this.items[this.index++]).attr("data-ss-state", "inactive");
     }
 
     if (this.infinite && this.index === lastInfiniteIndex) {
-      jQuery(this.items[1]).attr("data-ss-state", "active");
+      $(this.items[1]).attr("data-ss-state", "active");
       this.index = 1;
     } else {
       if (this.multi) {
         var $items;
         if (!this.multiVars.even && this.index === this.maxIndex - 1) {
-          $items = jQuery(this.items.slice(this.items.length - this.multiVars.stepSize, this.items.length));
+          $items = $(this.items.slice(this.items.length - this.multiVars.stepSize, this.items.length));
         } else {
-          $items = jQuery(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
+          $items = $(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
         }
         $items.attr("data-ss-state", "active");
       } else {
-        jQuery(this.items[this.index]).attr("data-ss-state", "active");
+        $(this.items[this.index]).attr("data-ss-state", "active");
       }
     }
 
-    $dots = (this.infinite) ? jQuery(this.dots[this.index - 1]) : jQuery(this.dots[this.index]);
+    $dots = (this.infinite) ? $(this.dots[this.index - 1]) : $(this.dots[this.index]);
     $dots.attr("data-ss-state", "active");
 
     if (!this.infinite) {
@@ -1047,7 +1047,7 @@ soysauce.carousels = (function() {
   };
 
   Carousel.prototype.slideBackward = function() {
-    var $dots = (this.infinite) ? jQuery(this.dots[this.index - 1]) : jQuery(this.dots[this.index]),
+    var $dots = (this.infinite) ? $(this.dots[this.index - 1]) : $(this.dots[this.index]),
       lastInfiniteIndex = this.numChildren - 1,
       stepSize = (this.multi) ? this.multiVars.stepSize * this.itemWidth : this.itemWidth;
 
@@ -1056,26 +1056,26 @@ soysauce.carousels = (function() {
     $dots.attr("data-ss-state", "inactive");
 
     if (this.multi) {
-      var $items = jQuery(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
+      var $items = $(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
       $items.attr("data-ss-state", "inactive");
       this.index--;
     } else {
-      jQuery(this.items[this.index--]).attr("data-ss-state", "inactive");
+      $(this.items[this.index--]).attr("data-ss-state", "inactive");
     }
 
     if (this.infinite && this.index === 0) {
-      jQuery(this.items[lastInfiniteIndex - 1]).attr("data-ss-state", "active");
+      $(this.items[lastInfiniteIndex - 1]).attr("data-ss-state", "active");
       this.index = lastInfiniteIndex - 1;
     } else {
       if (this.multi) {
-        var $items = jQuery(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
+        var $items = $(this.items.slice(this.index * this.multiVars.stepSize, this.index * this.multiVars.stepSize + this.multiVars.numItems));
         $items.attr("data-ss-state", "active");
       } else {
-        jQuery(this.items[this.index]).attr("data-ss-state", "active");
+        $(this.items[this.index]).attr("data-ss-state", "active");
       }
     }
 
-    $dots = (this.infinite) ? jQuery(this.dots[this.index - 1]) : jQuery(this.dots[this.index]);
+    $dots = (this.infinite) ? $(this.dots[this.index - 1]) : $(this.dots[this.index]);
     $dots.attr("data-ss-state", "active");
 
     if (!this.infinite) {
@@ -1178,7 +1178,7 @@ soysauce.carousels = (function() {
     this.container.css("width", (this.itemWidth * this.numChildren) + "px");
 
     if (this.autoheight) {
-      this.widget.css("height", jQuery(this.items[this.index]).outerHeight(true));
+      this.widget.css("height", $(this.items[this.index]).outerHeight(true));
     }
 
     this.resizeID = window.setTimeout(function() {
@@ -1254,15 +1254,15 @@ soysauce.carousels = (function() {
     var newOffset = index * -this.itemWidth + this.peekWidth;
 
     if (this.infinite) {
-      jQuery(this.items[this.index]).attr("data-ss-state", "inactive");
-      jQuery(this.items[index]).attr("data-ss-state", "active");
-      jQuery(this.dots[this.index - 1]).attr("data-ss-state", "inactive");
-      jQuery(this.dots[index - 1]).attr("data-ss-state", "active");
+      $(this.items[this.index]).attr("data-ss-state", "inactive");
+      $(this.items[index]).attr("data-ss-state", "active");
+      $(this.dots[this.index - 1]).attr("data-ss-state", "inactive");
+      $(this.dots[index - 1]).attr("data-ss-state", "active");
     } else {
-      jQuery(this.items[this.index]).attr("data-ss-state", "inactive");
-      jQuery(this.items[index]).attr("data-ss-state", "active");
-      jQuery(this.dots[this.index]).attr("data-ss-state", "inactive");
-      jQuery(this.dots[index]).attr("data-ss-state", "active");
+      $(this.items[this.index]).attr("data-ss-state", "inactive");
+      $(this.items[index]).attr("data-ss-state", "active");
+      $(this.dots[this.index]).attr("data-ss-state", "inactive");
+      $(this.dots[index]).attr("data-ss-state", "active");
     }
 
     if (this.fade) {
@@ -1271,7 +1271,7 @@ soysauce.carousels = (function() {
     }
 
     if (this.autoheight) {
-      var newHeight = jQuery(this.items[index]).outerHeight(true);
+      var newHeight = $(this.items[index]).outerHeight(true);
       this.widget.height(newHeight);
     }
 
@@ -1316,7 +1316,7 @@ soysauce.carousels = (function() {
     }
 
     if (self.autoheight) {
-      self.widget.css("height", jQuery(self.items[self.index]).outerHeight(true));
+      self.widget.css("height", $(self.items[self.index]).outerHeight(true));
     }
   };
 
@@ -1404,4 +1404,4 @@ soysauce.carousels = (function() {
     }
   };
 
-})();
+})(jQuery);
