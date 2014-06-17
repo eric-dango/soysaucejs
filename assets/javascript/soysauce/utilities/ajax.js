@@ -8,16 +8,14 @@ soysauce.ajax = function(url, callback, forceAjax) {
       if (!forceAjax) {
         if (typeof(callback) === "function") {
           return callback(result, "cached");
-        }
-        else {
+        } else {
           return result;
         }
       }
-    }
-    catch(e) {}
+    } catch (e) {}
   }
 
-  var xhr = $.ajax({
+  var xhr = jQuery.ajax({
     url: url,
     async: (!callback) ? false : true
   }).always(function(data, status, jqXHR) {
@@ -25,12 +23,10 @@ soysauce.ajax = function(url, callback, forceAjax) {
       var resultString = JSON.stringify(data);
       result = JSON.parse(resultString);
       sessionStorage.setItem(url, resultString);
-    }
-    catch(e) {
+    } catch (e) {
       if (e.code === DOMException.QUOTA_EXCEEDED_ERR) {
         console.warn("Soysauce: sessionStorage is full.");
-      }
-      else {
+      } else {
         console.error("error message: " + e.message);
         console.warn("Soysauce: error fetching url '" + url + "'. Data returned needs to be JSON.");
         result = false;

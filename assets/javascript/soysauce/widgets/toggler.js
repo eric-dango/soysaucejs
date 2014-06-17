@@ -1,4 +1,4 @@
-soysauce.togglers = (function() {
+soysauce.togglers = (function($) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
 
   // Togglers
@@ -40,7 +40,7 @@ soysauce.togglers = (function() {
 
       tabGroupName = button.attr("data-ss-tab-group");
 
-      this.orphanTabGroup = $("[data-ss-tab-group='" + tabGroupName  + "']");
+      this.orphanTabGroup = $("[data-ss-tab-group='" + tabGroupName + "']");
       this.orphanTabs = (this.orphanTabGroup.length > 1) ? true : false;
 
       this.content.attr("data-ss-id", button.attr("data-ss-id"));
@@ -51,13 +51,11 @@ soysauce.togglers = (function() {
       if (this.button.attr("data-ss-state") === "open") {
         this.setState("open");
         this.opened = true;
-      }
-      else {
+      } else {
         this.setState("closed");
         this.opened = false;
       }
-    }
-    else {
+    } else {
       this.widget = $(selector);
       this.orphan = false;
       this.allButtons = this.widget.find("> [data-ss-component='button']");
@@ -100,7 +98,7 @@ soysauce.togglers = (function() {
     };
 
     if (options) options.forEach(function(option) {
-      switch(option) {
+      switch (option) {
         case "ajax":
           self.ajax = true;
           self.ajaxOnLoad = /true/.test(self.widget.attr("data-ss-ajax-onload"));
@@ -144,18 +142,16 @@ soysauce.togglers = (function() {
     if (this.widget.attr("data-ss-state") === "open") {
       this.allButtons.each(function() {
         var button = $(this);
-        if (!button.attr("data-ss-state"))  {
+        if (!button.attr("data-ss-state")) {
           button.attr("data-ss-state", "closed");
           button.find("+ [data-ss-component='content']").attr("data-ss-state", "closed");
-        }
-        else if (button.attr("data-ss-state") === "open") {
+        } else if (button.attr("data-ss-state") === "open") {
           self.button = button;
           self.content = button.find("+ [data-ss-component='content']");
         }
       });
       this.opened = true;
-    }
-    else {
+    } else {
       this.allButtons.attr("data-ss-state", "closed");
       this.allContent.attr("data-ss-state", "closed");
       this.widget.attr("data-ss-state", "closed");
@@ -178,8 +174,7 @@ soysauce.togglers = (function() {
           if (!content.attr("data-ss-open-onload")) {
             content.css("height", "0px");
             content.attr("data-ss-state", "closed");
-          }
-          else {
+          } else {
             self.height = height;
             content.css("height", self.height);
           }
@@ -225,8 +220,7 @@ soysauce.togglers = (function() {
           obj.on("SSWidgetReady", function() {
             injectAjaxContent(self, contentItem);
           });
-        }
-        else {
+        } else {
           ajaxButton.click(function() {
             injectAjaxContent(self, contentItem);
           });
@@ -243,8 +237,7 @@ soysauce.togglers = (function() {
         soysauce.ajax(url, function(data, status) {
           if (/success|cached/.test(status)) {
             self.ajaxData = data;
-          }
-          else {
+          } else {
             console.warn("Soysauce: AJAX request to " + url + " failed in toggler.js");
           }
           self.setAjaxComplete();
@@ -279,8 +272,7 @@ soysauce.togglers = (function() {
       if (this.isChildToggler && this.parent.slide) {
         if (this.tab) {
           this.parent.setHeight(this.parent.height + this.height - this.parent.prevChildHeight);
-        }
-        else {
+        } else {
           this.parent.addHeight(this.height);
         }
         this.parent.prevChildHeight = this.height;
@@ -292,8 +284,7 @@ soysauce.togglers = (function() {
           self.height = self.content.outerHeight(true);
           self.content.css("height", self.height + "px");
         });
-      }
-      else {
+      } else {
         self.height = parseInt(self.content.attr("data-ss-slide-height"), 10);
         self.content.css("height", self.height + "px");
       }
@@ -326,8 +317,7 @@ soysauce.togglers = (function() {
       this.allContent.attr("data-ss-state", "closed");
       this.state = "closed";
       this.opened = false;
-    }
-    else {
+    } else {
       if ($target.attr("data-ss-state") === "closed") return false;
 
       if ($target.attr("data-ss-component") === "button") {
@@ -335,8 +325,7 @@ soysauce.togglers = (function() {
         if (!this.orphan) {
           this.content = $target.find("+ *");
         }
-      }
-      else {
+      } else {
         console.warn("Soysauce: target parameter must be a button");
       }
     }
@@ -378,14 +367,13 @@ soysauce.togglers = (function() {
 
       if (!subWidgets.length) {
         this.doResize();
-      }
-      else {
+      } else {
         subWidgets.each(function(i, e) {
           var widget = soysauce.fetch(e).widget;
 
           if ((i + 1) !== subWidgets.length) return;
 
-          widget.one("SSWidgetResized", function () {
+          widget.one("SSWidgetResized", function() {
             self.allContent.css({
               "clear": "",
               "position": "",
@@ -395,8 +383,7 @@ soysauce.togglers = (function() {
           });
         });
       }
-    }
-    else {
+    } else {
       this.doResize();
     }
   };
@@ -440,8 +427,7 @@ soysauce.togglers = (function() {
 
     if (e) {
       target = e.target;
-    }
-    else {
+    } else {
       if (component && !this.orphan) {
         if (typeof(component) === "string") {
           target = component = this.widget.find(component)[0];
@@ -451,13 +437,11 @@ soysauce.togglers = (function() {
             var $component = this.widget.find(component);
             target = component.previousElementSibling;
           }
-        }
-        catch (e) {
+        } catch (e) {
           console.warn("Soysauce: component passed is not a Soysauce component. Opening first toggler.");
           target = this.button[0];
         }
-      }
-      else {
+      } else {
         target = this.button[0];
         if (target && !target.attributes["data-ss-component"]) {
           console.warn("Soysauce: component passed is not a Soysauce component. Opening first toggler.");
@@ -473,8 +457,7 @@ soysauce.togglers = (function() {
       if (this.opened) {
         this.opened = false;
         this.setState("closed");
-      }
-      else {
+      } else {
         if (this.orphanTabs) {
           this.orphanTabGroup.each(function() {
             var tab = soysauce.fetch(this);
@@ -491,7 +474,7 @@ soysauce.togglers = (function() {
 
     if (this.tab) {
       var collapse = (this.button.attr("data-ss-state") === "open" &&
-                      this.button[0] === target) ? true : false;
+        this.button[0] === target) ? true : false;
 
       if ((this.responsive && !this.responsiveVars.accordions || this.nocollapse) && (this.button[0] === target)) return;
 
@@ -518,15 +501,14 @@ soysauce.togglers = (function() {
       }
 
       this.openToggler();
-    }
-    else {
+    } else {
       var collapse;
 
       this.button = $(target);
       this.content = $(target).find("+ [data-ss-component='content']");
 
       collapse = (this.button.attr("data-ss-state") === "open" &&
-                      this.widget.find("[data-ss-component='button'][data-ss-state='open']").length === 1) ? true : false;
+        this.widget.find("[data-ss-component='button'][data-ss-state='open']").length === 1) ? true : false;
 
       if (collapse) {
         this.opened = false;
@@ -545,8 +527,7 @@ soysauce.togglers = (function() {
 
     if (this.opened) {
       this.widget.attr("data-ss-state", "open");
-    }
-    else {
+    } else {
       this.widget.attr("data-ss-state", "closed");
     }
 
@@ -560,8 +541,7 @@ soysauce.togglers = (function() {
     this.ready = true;
     if (this.opened) {
       this.setState("open");
-    }
-    else {
+    } else {
       this.setState("closed");
     }
     this.widget.trigger("SSAjaxComplete");
@@ -586,8 +566,7 @@ soysauce.togglers = (function() {
         this.openToggler();
       }
       this.widget.css("min-height", this.button.outerHeight(true) + this.content.outerHeight(true) + "px");
-    }
-    else {
+    } else {
       this.responsiveVars.accordions = true;
       this.widget.attr("data-ss-responsive-type", "accordions");
       this.widget.css("min-height", "0");
@@ -600,4 +579,4 @@ soysauce.togglers = (function() {
     }
   };
 
-})();
+})(jQuery);

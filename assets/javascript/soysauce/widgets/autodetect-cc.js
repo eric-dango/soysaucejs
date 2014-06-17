@@ -1,4 +1,4 @@
-soysauce.autodetectCC = (function() {
+soysauce.autodetectCC = (function($) {
 
   function autodetectCC(selector) {
     var options = soysauce.getOptions(selector);
@@ -13,7 +13,7 @@ soysauce.autodetectCC = (function() {
     this.fieldClear = false;
 
     if (options) options.forEach(function(option) {
-      switch(option) {
+      switch (option) {
         case "format":
           self.format = (soysauce.vars.degrade2) ? false : true;
           break;
@@ -25,8 +25,7 @@ soysauce.autodetectCC = (function() {
 
     if (this.format) {
       this.input.attr("maxlength", "19");
-    }
-    else {
+    } else {
       this.input.attr("maxlength", "16");
     }
 
@@ -53,35 +52,27 @@ soysauce.autodetectCC = (function() {
       if (card_num.length) {
         if (card_num.match(/^4/)) {
           self.prediction = "visa";
-        }
-        else if (card_num.match(/^5/)) {
+        } else if (card_num.match(/^5/)) {
           self.prediction = "mastercard";
-        }
-        else if (card_num.match(/^6/)) {
+        } else if (card_num.match(/^6/)) {
           self.prediction = "discover";
-        }
-        else if (card_num.match(/^3/)) {
+        } else if (card_num.match(/^3/)) {
           if (card_num.length === 1) {
             self.prediction = "amex dinersclub jcb";
-          }
-          else {
+          } else {
             if (card_num.match(/^3(4|7)/)) {
               self.prediction = "amex";
-            }
-            else if (card_num.match(/^3(0|8)/)) {
+            } else if (card_num.match(/^3(0|8)/)) {
               self.prediction = "dinersclub";
-            }
-            else if (card_num.match(/^35/)) {
+            } else if (card_num.match(/^35/)) {
               self.prediction = "jcb";
             }
           }
-        }
-        else {
+        } else {
           self.prediction = null;
         }
         $(e.target).trigger("SSPrediction");
-      }
-      else {
+      } else {
         $(e.target).trigger("SSEmpty");
         self.prediction = null;
       }
@@ -91,8 +82,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (/^4[0-9]{12}(?:[0-9]{3})?$/.test(card_num)) ? true : false;
           result = "visa";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -100,8 +90,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (card_num.match(/^5[1-5][0-9]{14}$/)) ? true : false;
           result = "mastercard";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -109,8 +98,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (card_num.match(/^3[47][0-9]{13}$/)) ? true : false;
           result = "amex";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -118,8 +106,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (card_num.match(/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/)) ? true : false;
           result = "dinersclub";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -127,8 +114,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (card_num.match(/^6(?:011|5[0-9]{2})[0-9]{12}$/)) ? true : false;
           result = "discover";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -136,8 +122,7 @@ soysauce.autodetectCC = (function() {
         if (validCC(card_num)) {
           self.valid = (card_num.match(/^(?:2131|1800|35\d{3})\d{11}$/)) ? true : false;
           result = "jcb";
-        }
-        else {
+        } else {
           self.valid = false;
         }
       }
@@ -145,13 +130,12 @@ soysauce.autodetectCC = (function() {
       if (self.valid && result) {
         self.result = result;
         $(e.target).trigger("SSResult");
-      }
-      else {
+      } else {
         self.result = null;
         if (!self.prediction && card_num.length === 16 ||
-            /visa/.test(self.prediction) && card_num.length === 13 ||
-            /visa|mastercard|discover|dinersclub|jcb/.test(self.prediction) && card_num.length === 16 ||
-            /amex/.test(self.prediction) && card_num.length === 15) {
+          /visa/.test(self.prediction) && card_num.length === 13 ||
+          /visa|mastercard|discover|dinersclub|jcb/.test(self.prediction) && card_num.length === 16 ||
+          /amex/.test(self.prediction) && card_num.length === 15) {
           $(e.target).trigger("SSResult");
         }
       }
@@ -181,8 +165,7 @@ soysauce.autodetectCC = (function() {
         val = insertStringAt("-", 11, val);
         this.input.val(val);
       }
-    }
-    else {
+    } else {
       if (val[4] !== undefined && val[4] !== "-") {
         val = insertStringAt("-", 4, val);
         this.input.val(val);
@@ -200,8 +183,7 @@ soysauce.autodetectCC = (function() {
     function insertStringAt(content, index, dest) {
       if (index > 0) {
         return dest.substring(0, index) + content + dest.substring(index, dest.length);
-      }
-      else {
+      } else {
         return content + dest;
       }
     }
@@ -214,7 +196,10 @@ soysauce.autodetectCC = (function() {
 
   // Luhn Algorithm, Copyright (c) 2011 Thomas Fuchs, http://mir.aculo.us
   // https://gist.github.com/madrobby/976805
-  function validCC(a,b,c,d,e){for(d=+a[b=a.length-1],e=0;b--;)c=+a[b],d+=++e%2?2*c%10+(c>4):c;return!(d%10)};
+  function validCC(a, b, c, d, e) {
+    for (d = +a[b = a.length - 1], e = 0; b--;) c = +a[b], d += ++e % 2 ? 2 * c % 10 + (c > 4) : c;
+    return !(d % 10)
+  };
 
   return {
     init: function(selector) {
@@ -222,4 +207,4 @@ soysauce.autodetectCC = (function() {
     }
   };
 
-})();
+})(jQuery);

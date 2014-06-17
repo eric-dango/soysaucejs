@@ -1,9 +1,9 @@
-soysauce.inputClear = (function() {
+soysauce.inputClear = (function($) {
 
   function inputClear(selector) {
     var options = soysauce.getOptions(selector),
-        self = this,
-        iconFocus = false;
+      self = this,
+      iconFocus = false;
 
     this.widget = $(selector);
     this.icon;
@@ -52,4 +52,4 @@ soysauce.inputClear = (function() {
     }
   };
 
-})();
+})(jQuery);
