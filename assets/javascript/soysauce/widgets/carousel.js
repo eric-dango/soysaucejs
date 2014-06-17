@@ -852,6 +852,7 @@ soysauce.carousels = (function($) {
     if (e.gesture.eventType === "end") {
       var swiped = (e.gesture.velocityX >= Hammer.gestures.Swipe.defaults.swipe_velocity) ? true : false;
       var doSwipe = (swiped || e.gesture.distance >= SWIPE_THRESHOLD) ? true : false;
+      var peekOffset = self.peekAlign === "left" ? 0 : self.peekWidth;
 
       soysauce.stifle(e);
 
@@ -867,11 +868,11 @@ soysauce.carousels = (function($) {
             if (self.index === self.maxIndex - 1) {
               self.gotoPos(self.offset);
             } else {
-              self.gotoPos(self.index * -self.itemWidth * self.multiVars.stepSize + self.peekWidth);
+              self.gotoPos(self.index * -self.itemWidth * self.multiVars.stepSize + peekOffset);
               self.widget.trigger("SSSwipe");
             }
           } else {
-            self.gotoPos(self.index * -self.itemWidth + self.peekWidth);
+            self.gotoPos(self.index * -self.itemWidth + peekOffset);
             self.widget.trigger("SSSwipe");
           }
         } else {
@@ -883,7 +884,7 @@ soysauce.carousels = (function($) {
         }
       } else if (doSwipe && e.gesture.direction === "right") {
         if (!self.infinite && self.index === 0) {
-          self.gotoPos(self.peekWidth);
+          self.gotoPos(peekOffset);
         } else {
           if (soysauce.vars.degrade) {
             self.rewindCoord = parseInt(self.container.css("left"), 10);
@@ -921,7 +922,6 @@ soysauce.carousels = (function($) {
     }
 
     this.offset = x;
-
 
     this.container.attr("data-ss-state", "intransit");
     this.widget.attr("data-ss-state", "intransit");
@@ -1095,7 +1095,8 @@ soysauce.carousels = (function($) {
     this.forward = false;
 
     if (this.multi && !this.multiVars.even && this.index === 0) {
-      this.gotoPos(0 + this.peekWidth);
+      var peekOffset = this.peekAlign === "left" ? 0 : this.peekWidth;
+      this.gotoPos(0 + peekOffset);
     } else {
       this.gotoPos(this.offset + stepSize);
     }
@@ -1169,7 +1170,7 @@ soysauce.carousels = (function($) {
 
     this.itemWidth += diff;
 
-    if (this.peek && /left/.test(this.peekAlign)) {
+    if (this.peek && this.peekAlign === "left") {
       this.offset = -this.index * this.itemWidth;
     } else {
       this.offset = -this.index * this.itemWidth + this.peekWidth;
