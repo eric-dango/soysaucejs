@@ -1,6 +1,6 @@
 {
   "name": "soysaucejs",
-  "version": "1.3.27-beta.1",
+  "version": "1.3.27",
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install"
   },
