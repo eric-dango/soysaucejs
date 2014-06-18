@@ -1,4 +1,4 @@
-soysauce.lazyloader = (function($) {
+soysauce.lazyloader = (function($, undefined) {
   var THROTTLE = 100; // milliseconds
   var $window = $(window);
   var MIN_THRESHOLD = 1200;

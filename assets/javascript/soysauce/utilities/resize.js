@@ -1,4 +1,4 @@
-(function(window, $, soysauce) {
+(function(window, $, soysauce, undefined) {
   var resizeEvent = ("onorientationchange" in window) && !/android/i.test(navigator.userAgent) ? "orientationchange" : "resize";
 
   $(window).on(resizeEvent, function(e) {
@@ -24,4 +24,4 @@
       });
     }, 30);
   });
-})(window, jQuery, soysauce, null);
+})(window, jQuery, soysauce);

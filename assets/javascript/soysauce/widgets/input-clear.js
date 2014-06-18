@@ -1,4 +1,4 @@
-soysauce.inputClear = (function($) {
+soysauce.inputClear = (function($, undefined) {
 
   function inputClear(selector) {
     var options = soysauce.getOptions(selector),

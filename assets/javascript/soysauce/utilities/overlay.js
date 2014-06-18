@@ -1,4 +1,4 @@
-soysauce.overlay = (function($) {
+soysauce.overlay = (function(window, $, undefined) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
   var $body = $("body");
   var $viewport = $("meta[name='viewport']");
@@ -176,4 +176,4 @@ soysauce.overlay = (function($) {
 
   return new Overlay();
 
-})(jQuery);
+})(window, jQuery);

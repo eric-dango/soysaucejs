@@ -1,4 +1,4 @@
-(function(window, $, soysauce) {
+(function(window, $, soysauce, undefined) {
 
   soysauce.init = function(selector, manual) {
     var set;
@@ -131,4 +131,4 @@
     $(window).trigger("SSReady");
   });
 
-})(window, jQuery, soysauce, null);
+})(window, jQuery, soysauce);

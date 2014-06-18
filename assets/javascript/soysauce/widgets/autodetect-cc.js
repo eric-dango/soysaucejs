@@ -1,4 +1,4 @@
-soysauce.autodetectCC = (function($) {
+soysauce.autodetectCC = (function($, undefined) {
 
   function autodetectCC(selector) {
     var options = soysauce.getOptions(selector);

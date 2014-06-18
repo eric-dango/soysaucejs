@@ -1,4 +1,4 @@
-soysauce.togglers = (function($) {
+soysauce.togglers = (function($, undefined) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
 
   // Togglers

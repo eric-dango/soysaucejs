@@ -1,4 +1,4 @@
-soysauce.geocoder = (function($) {
+soysauce.geocoder = (function($, undefined) {
   var BASE_URL = "//jeocoder.herokuapp.com/zips/";
   var AOL_URL = "//www.mapquestapi.com/geocoding/v1/reverse?key=Fmjtd%7Cluub2l6tnu%2Ca5%3Do5-96tw0f";
 

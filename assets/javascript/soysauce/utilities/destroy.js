@@ -1,4 +1,4 @@
-(function(window, $, soysauce) {
+(function(window, $, soysauce, undefined) {
   soysauce.destroy = function(selector, removeWidget) {
 
     try {
@@ -28,4 +28,4 @@
 
     return false;
   }
-})(window, jQuery, soysauce, null);
+})(window, jQuery, soysauce);

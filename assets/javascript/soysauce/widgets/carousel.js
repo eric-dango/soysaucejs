@@ -1,4 +1,4 @@
-soysauce.carousels = (function($) {
+soysauce.carousels = (function($, undefined) {
   // Shared Default Globals
   var AUTOSCROLL_INTERVAL = 5000;
   var PEEK_WIDTH = 20;

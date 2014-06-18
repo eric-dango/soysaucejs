@@ -7,7 +7,7 @@
 *
 */
 
-(function(window, $) {
+(function(window, $, undefined) {
   "use strict";
 
   /**
@@ -248,4 +248,4 @@
     }
   });
 
-})(window, jQuery, null);
+})(window, jQuery);

@@ -1,4 +1,4 @@
-soysauce.autosuggest = (function($) {
+soysauce.autosuggest = (function($, undefined) {
 
   function AutoSuggest(selector) {
     var options = soysauce.getOptions(selector);
@@ -29,7 +29,7 @@ soysauce.autosuggest = (function($) {
       width: undefined,
       property: 'text'
     };
-    this.acSettings = defaults //$.extend(defaults, options);  
+    this.acSettings = defaults //$.extend(defaults, options);
 
 
     this.obj = $(selector);
@@ -306,7 +306,7 @@ soysauce.autosuggest = (function($) {
       filterPatt = self.acSettings.caseSensitive ? new RegExp(filterTxt) : new RegExp(filterTxt, 'i');
 
       // Look for the required match against each single search data item. When the not
-      // character is used we are looking for a false match. 
+      // character is used we are looking for a false match.
       for (i = 0; i < searchData.length; i += 1) {
         if (filterPatt.test(searchData[i][self.acSettings.property]) === bMatch) {
           resultObjects.push(searchData[i]);
