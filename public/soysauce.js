@@ -2263,137 +2263,140 @@ function setup(Hammer, $) {
   setup(window.Hammer, window.jQuery || window.Zepto);
 
 })(this);
-if (!jQuery.fn.find) {
-  jQuery.fn.extend({
-    find: function( selector ) {
-      var i, ret, self,
-      len = this.length;
+(function($, undefined) {
+  if (!jQuery.fn.find) {
+    jQuery.fn.extend({
+      find: function( selector ) {
+        var i, ret, self,
+        len = this.length;
 
-      if ( typeof selector !== "string" ) {
-        self = this;
-        return this.pushStack( jQuery( selector ).filter(function() {
-          for ( i = 0; i < len; i++ ) {
-            if ( jQuery.contains( self[ i ], this ) ) {
-              return true;
-            }
-          }
-        }));
-      }
-
-      ret = [];
-      for ( i = 0; i < len; i++ ) {
-        jQuery.find( selector, this[ i ], ret );
-      }
-        
-      // Needed because $( selector, context ) becomes $( context ).find( selector )
-      ret = this.pushStack( len > 1 ? jQuery.unique( ret ) : ret );
-      ret.selector = ( this.selector ? this.selector + " " : "" ) + selector;
-      return ret;
-    }
-  });
-}
-
-if (!jQuery.fn.on) {
-  jQuery.fn.extend({
-    on: function( types, selector, data, fn, /*INTERNAL*/ one ) {
-      var type, origFn;
-
-      // Types can be a map of types/handlers
-      if ( typeof types === "object" ) {
-        // ( types-Object, selector, data )
         if ( typeof selector !== "string" ) {
-          // ( types-Object, data )
-          data = data || selector;
+          self = this;
+          return this.pushStack( jQuery( selector ).filter(function() {
+            for ( i = 0; i < len; i++ ) {
+              if ( jQuery.contains( self[ i ], this ) ) {
+                return true;
+              }
+            }
+          }));
+        }
+
+        ret = [];
+        for ( i = 0; i < len; i++ ) {
+          jQuery.find( selector, this[ i ], ret );
+        }
+
+        // Needed because $( selector, context ) becomes $( context ).find( selector )
+        ret = this.pushStack( len > 1 ? jQuery.unique( ret ) : ret );
+        ret.selector = ( this.selector ? this.selector + " " : "" ) + selector;
+        return ret;
+      }
+    });
+  }
+
+  if (!jQuery.fn.on) {
+    jQuery.fn.extend({
+      on: function( types, selector, data, fn, /*INTERNAL*/ one ) {
+        var type, origFn;
+
+        // Types can be a map of types/handlers
+        if ( typeof types === "object" ) {
+          // ( types-Object, selector, data )
+          if ( typeof selector !== "string" ) {
+            // ( types-Object, data )
+            data = data || selector;
+            selector = undefined;
+          }
+          for ( type in types ) {
+            this.on( type, selector, data, types[ type ], one );
+          }
+          return this;
+        }
+
+        if ( data == null && fn == null ) {
+          // ( types, fn )
+          fn = selector;
+          data = selector = undefined;
+        } else if ( fn == null ) {
+          if ( typeof selector === "string" ) {
+            // ( types, selector, fn )
+            fn = data;
+            data = undefined;
+          } else {
+            // ( types, data, fn )
+            fn = data;
+            data = selector;
+            selector = undefined;
+          }
+        }
+        if ( fn === false ) {
+          fn = returnFalse;
+        } else if ( !fn ) {
+          return this;
+        }
+
+        if ( one === 1 ) {
+          origFn = fn;
+          fn = function( event ) {
+            // Can use an empty set, since event contains the info
+            jQuery().off( event );
+            return origFn.apply( this, arguments );
+          };
+          // Use same guid so caller can remove using origFn
+          fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
+        }
+        return this.each( function() {
+          jQuery.event.add( this, types, fn, data, selector );
+        });
+      }
+    });
+  }
+
+  if (!jQuery.fn.one) {
+    jQuery.fn.extend({
+      one: function( types, selector, data, fn ) {
+        return this.on( types, selector, data, fn, 1 );
+      }
+    });
+  }
+
+  if (!jQuery.fn.off) {
+    jQuery.fn.extend({
+      off: function( types, selector, fn ) {
+        var handleObj, type;
+        if ( types && types.preventDefault && types.handleObj ) {
+          // ( event )  dispatched jQuery.Event
+          handleObj = types.handleObj;
+          jQuery( types.delegateTarget ).off(
+            handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
+            handleObj.selector,
+            handleObj.handler
+          );
+          return this;
+        }
+        if ( typeof types === "object" ) {
+          // ( types-object [, selector] )
+          for ( type in types ) {
+            this.off( type, selector, types[ type ] );
+          }
+          return this;
+        }
+        if ( selector === false || typeof selector === "function" ) {
+          // ( types [, fn] )
+          fn = selector;
           selector = undefined;
         }
-        for ( type in types ) {
-          this.on( type, selector, data, types[ type ], one );
+        if ( fn === false ) {
+          fn = returnFalse;
         }
-        return this;
+        return this.each(function() {
+          jQuery.event.remove( this, types, fn, selector );
+        });
       }
+    });
+  }
+})(jQuery);
 
-      if ( data == null && fn == null ) {
-        // ( types, fn )
-        fn = selector;
-        data = selector = undefined;
-      } else if ( fn == null ) {
-        if ( typeof selector === "string" ) {
-          // ( types, selector, fn )
-          fn = data;
-          data = undefined;
-        } else {
-          // ( types, data, fn )
-          fn = data;
-          data = selector;
-          selector = undefined;
-        }
-      }
-      if ( fn === false ) {
-        fn = returnFalse;
-      } else if ( !fn ) {
-        return this;
-      }
-
-      if ( one === 1 ) {
-        origFn = fn;
-        fn = function( event ) {
-          // Can use an empty set, since event contains the info
-          jQuery().off( event );
-          return origFn.apply( this, arguments );
-        };
-        // Use same guid so caller can remove using origFn
-        fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
-      }
-      return this.each( function() {
-        jQuery.event.add( this, types, fn, data, selector );
-      });
-    }
-  });
-}
-
-if (!jQuery.fn.one) {
-  jQuery.fn.extend({
-    one: function( types, selector, data, fn ) {
-      return this.on( types, selector, data, fn, 1 );
-    }
-  });
-}
-
-if (!jQuery.fn.off) {
-  jQuery.fn.extend({
-    off: function( types, selector, fn ) {
-      var handleObj, type;
-      if ( types && types.preventDefault && types.handleObj ) {
-        // ( event )  dispatched jQuery.Event
-        handleObj = types.handleObj;
-        jQuery( types.delegateTarget ).off(
-          handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
-          handleObj.selector,
-          handleObj.handler
-        );
-        return this;
-      }
-      if ( typeof types === "object" ) {
-        // ( types-object [, selector] )
-        for ( type in types ) {
-          this.off( type, selector, types[ type ] );
-        }
-        return this;
-      }
-      if ( selector === false || typeof selector === "function" ) {
-        // ( types [, fn] )
-        fn = selector;
-        selector = undefined;
-      }
-      if ( fn === false ) {
-        fn = returnFalse;
-      }
-      return this.each(function() {
-        jQuery.event.remove( this, types, fn, selector );
-      });
-    }
-  });
-}
 /*
  * imagesLoaded PACKAGED v3.1.1
  * JavaScript is all like "You images are done yet or what?"
@@ -3250,7 +3253,7 @@ window.imagesLoaded = defineImagesLoaded(
 *
 */
 
-(function(window, $) {
+(function(window, $, undefined) {
   "use strict";
 
   /**
@@ -3491,7 +3494,7 @@ window.imagesLoaded = defineImagesLoaded(
     }
   });
 
-})(window, jQuery, null);
+})(window, jQuery);
 
 soysauce.ajax = function(url, callback, forceAjax) {
   var result = false;
@@ -3536,7 +3539,8 @@ soysauce.ajax = function(url, callback, forceAjax) {
 
   return result;
 };
-(function(window, $, soysauce) {
+
+(function(window, $, soysauce, undefined) {
   soysauce.destroy = function(selector, removeWidget) {
 
     try {
@@ -3566,7 +3570,8 @@ soysauce.ajax = function(url, callback, forceAjax) {
 
     return false;
   }
-})(window, jQuery, soysauce, null);
+})(window, jQuery, soysauce);
+
 soysauce.freezeChildren = function(selector) {
   var children = jQuery("[data-ss-id='" + selector + "']").find("[data-ss-widget]");
   children.each(function(index, child) {
@@ -3621,7 +3626,7 @@ soysauce.unfreezeAll = function() {
   }
   return true;
 };
-(function(window, $, soysauce) {
+(function(window, $, soysauce, undefined) {
 
   soysauce.init = function(selector, manual) {
     var set;
@@ -3754,7 +3759,7 @@ soysauce.unfreezeAll = function() {
     $(window).trigger("SSReady");
   });
 
-})(window, jQuery, soysauce, null);
+})(window, jQuery, soysauce);
 soysauce.lateload = function(selector) {
 
   function loadItem(selector) {
@@ -3785,7 +3790,8 @@ soysauce.lateload = function(selector) {
 };
 
 soysauce.lateload();
-soysauce.overlay = (function($) {
+
+soysauce.overlay = (function(window, $, undefined) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
   var $body = $("body");
   var $viewport = $("meta[name='viewport']");
@@ -3963,8 +3969,9 @@ soysauce.overlay = (function($) {
 
   return new Overlay();
 
-})(jQuery);
-(function(window, $, soysauce) {
+})(window, jQuery);
+
+(function(window, $, soysauce, undefined) {
   var resizeEvent = ("onorientationchange" in window) && !/android/i.test(navigator.userAgent) ? "orientationchange" : "resize";
 
   $(window).on(resizeEvent, function(e) {
@@ -3990,8 +3997,8 @@ soysauce.overlay = (function($) {
       });
     }, 30);
   });
-})(window, jQuery, soysauce, null);
-soysauce.autodetectCC = (function($) {
+})(window, jQuery, soysauce);
+soysauce.autodetectCC = (function($, undefined) {
 
   function autodetectCC(selector) {
     var options = soysauce.getOptions(selector);
@@ -4201,7 +4208,8 @@ soysauce.autodetectCC = (function($) {
   };
 
 })(jQuery);
-soysauce.autosuggest = (function($) {
+
+soysauce.autosuggest = (function($, undefined) {
 
   function AutoSuggest(selector) {
     var options = soysauce.getOptions(selector);
@@ -4232,7 +4240,7 @@ soysauce.autosuggest = (function($) {
       width: undefined,
       property: 'text'
     };
-    this.acSettings = defaults //$.extend(defaults, options);  
+    this.acSettings = defaults //$.extend(defaults, options);
 
 
     this.obj = $(selector);
@@ -4509,7 +4517,7 @@ soysauce.autosuggest = (function($) {
       filterPatt = self.acSettings.caseSensitive ? new RegExp(filterTxt) : new RegExp(filterTxt, 'i');
 
       // Look for the required match against each single search data item. When the not
-      // character is used we are looking for a false match. 
+      // character is used we are looking for a false match.
       for (i = 0; i < searchData.length; i += 1) {
         if (filterPatt.test(searchData[i][self.acSettings.property]) === bMatch) {
           resultObjects.push(searchData[i]);
@@ -4560,7 +4568,8 @@ soysauce.autosuggest = (function($) {
   };
 
 })(jQuery);
-soysauce.carousels = (function($) {
+
+soysauce.carousels = (function($, undefined) {
   // Shared Default Globals
   var AUTOSCROLL_INTERVAL = 5000;
   var PEEK_WIDTH = 20;
@@ -5977,7 +5986,8 @@ soysauce.carousels = (function($) {
   };
 
 })(jQuery);
-soysauce.geocoder = (function($) {
+
+soysauce.geocoder = (function($, undefined) {
   var BASE_URL = "//jeocoder.herokuapp.com/zips/";
   var AOL_URL = "//www.mapquestapi.com/geocoding/v1/reverse?key=Fmjtd%7Cluub2l6tnu%2Ca5%3Do5-96tw0f";
 
@@ -6110,7 +6120,8 @@ soysauce.geocoder = (function($) {
   };
 
 })(jQuery);
-soysauce.inputClear = (function($) {
+
+soysauce.inputClear = (function($, undefined) {
 
   function inputClear(selector) {
     var options = soysauce.getOptions(selector),
@@ -6165,7 +6176,8 @@ soysauce.inputClear = (function($) {
   };
 
 })(jQuery);
-soysauce.lazyloader = (function($) {
+
+soysauce.lazyloader = (function($, undefined) {
   var THROTTLE = 100; // milliseconds
   var $window = $(window);
   var MIN_THRESHOLD = 1200;
@@ -6385,7 +6397,8 @@ soysauce.lazyloader = (function($) {
   };
 
 })(jQuery);
-soysauce.togglers = (function($) {
+
+soysauce.togglers = (function($, undefined) {
   var TRANSITION_END = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
 
   // Togglers
