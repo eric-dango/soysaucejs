@@ -174,14 +174,14 @@ soysauce.carousels = (function($, undefined) {
     this.nextBtn = wrapper.find("~ [data-ss-button-type='next']");
     this.prevBtn = wrapper.find("~ [data-ss-button-type='prev']");
 
-    wrapper.find("~ [data-ss-button-type='prev']").click(function(e) {
+    wrapper.find("~ [data-ss-button-type='prev']").hammer().on('tap', function(e) {
       soysauce.stifle(e);
       if (self.ready && !self.interrupted && !self.freeze) {
         self.slideBackward();
       }
     });
 
-    wrapper.find("~ [data-ss-button-type='next']").click(function(e) {
+    wrapper.find("~ [data-ss-button-type='next']").hammer().on('tap', function(e) {
       soysauce.stifle(e);
       if (self.ready && !self.interrupted && !self.freeze) {
         self.slideForward();
