@@ -215,7 +215,13 @@
       }
     }(),
     getOrientation: function() {
-      return (window.orientation !== 0) ? "landscape" : "portrait";
+      if (typeof window.orientation === 'undefined') {
+        var currentWidth = window.innerWidth || document.body.offsetWidth || document.documentElement.offsetWidth,
+          currentHeight = window.innerHeight || document.body.offsetHeight || document.documentElement.offsetHeight;
+        return currentWidth > currentHeight ? "landscape" : "portrait";
+      } else {
+        return window.orientation !== 0 ? "landscape" : "portrait";
+      }
     }
   };
 
