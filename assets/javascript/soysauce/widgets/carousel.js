@@ -360,7 +360,7 @@ soysauce.carousels = (function($, undefined) {
 
     // Handle click events
     if (/ipod|iphone|ipad|android/i.test(navigator.userAgent)) {
-      this.container.hammer().on("tap", function(e) {
+      this.container.hammer().on("tap click", function(e) {
         if (self.freeze || self.swiping || self.lockScroll || e.gesture && e.gesture.distance > 0) {
           soysauce.stifle(e);
           return false;
