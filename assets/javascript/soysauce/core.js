@@ -17,6 +17,8 @@
   */
   window.soysauce = window.soysauce || {};
 
+  console.log('init!2 ');
+
   /**
   * An array of all initialized Soysauce widgets.
   *
