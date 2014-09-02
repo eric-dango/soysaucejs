@@ -482,8 +482,6 @@ soysauce.carousels = (function($, undefined) {
   Carousel.prototype.handleZoom = function(e) {
     var self = this;
 
-    if (this.swiping || this.freeze) return;
-
     soysauce.stifle(e);
 
     if (e.type === "doubletap") {
@@ -527,9 +525,6 @@ soysauce.carousels = (function($, undefined) {
 
       window.setTimeout(function() {
         setMatrix(self.zoomElement[0], self.zoomScale, self.zoomTranslateX, self.zoomTranslateY);
-        if (self.zoomScale === 1) {
-          self.handleUnfreeze();
-        }
       }, 0);
     } else if (e.type === "pinch") {
       if (!this.pinchEventsReady) {
