@@ -2,13 +2,15 @@
   "name": "soysaucejs",
   "title": "SoysauceJS",
   "description": "Integrate widgets into your site to create an elegant UX; Image carousels, togglers, autofill city/state from zip, and more.",
-  "version": "1.3.29",
+  "version": "2.0.0",
   "main": "./public/soysauce.js",
   "styles": [
     "./public/soysauce.css"
   ],
   "dependencies": {
-    "fastclick": "1.0.2"
+    "fastclick": "1.0.3",
+    "hammerjs": "2.0.2",
+    "imagesloaded": "~3.1.8"
   },
   "homepage": "http://www.soysaucejs.com/",
   "authors": [
@@ -32,5 +34,8 @@
     "public/javascript/*.gz",
     "public/javascript/site.min.js",
     "assets"
-  ]
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.1"
+  }
 }

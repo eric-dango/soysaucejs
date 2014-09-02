@@ -1,0 +1,221 @@
+{
+    "project": {
+        "name": "SoysauceJS",
+        "description": "jQuery library for mobile",
+        "version": "2.0.0",
+        "url": "https://github.com/egaba88/soysaucejs"
+    },
+    "files": {
+        "lib/widgets/_carousel.js": {
+            "name": "lib/widgets/_carousel.js",
+            "modules": {},
+            "classes": {
+                "Carousel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/widgets/base.js": {
+            "name": "lib/widgets/base.js",
+            "modules": {},
+            "classes": {
+                "Widget": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/head.js": {
+            "name": "lib/head.js",
+            "modules": {
+                "soysauce": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "soysauce": {
+            "name": "soysauce",
+            "submodules": {},
+            "classes": {
+                "Carousel": 1,
+                "Widget": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "lib/widgets/base.js",
+            "line": 1,
+            "description": "soysauce instance",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "Carousel": {
+            "name": "Carousel",
+            "shortname": "Carousel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "soysauce",
+            "file": "lib/widgets/_carousel.js",
+            "line": 1,
+            "description": "The Carousel widget.",
+            "extends": "Widget"
+        },
+        "Widget": {
+            "name": "Widget",
+            "shortname": "Widget",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "soysauce",
+            "file": "lib/widgets/base.js",
+            "line": 1,
+            "description": "The base widget."
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/widgets/_carousel.js",
+            "line": 98,
+            "description": "Removes handlers for its options. This is an optional method which is\ncalled during `destroy()`.",
+            "itemtype": "method",
+            "name": "teardown",
+            "optional": 1,
+            "class": "Carousel"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 9,
+            "description": "Initializes the widget.",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "The DOM element or string to initialize.",
+                    "type": "DOM element | String"
+                },
+                {
+                    "name": "options",
+                    "description": "A hash of options.",
+                    "type": "JSON"
+                }
+            ],
+            "return": {
+                "description": "Resolves with itself as the instance.",
+                "type": "Promise"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 64,
+            "description": "Adds the ability to extend the widget. Integrates the `super()` method.",
+            "itemtype": "method",
+            "name": "extend",
+            "params": [
+                {
+                    "name": "properties",
+                    "description": "A hash of properties to override.",
+                    "type": "JSON Object"
+                }
+            ],
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 108,
+            "description": "Determines whether or not the widget supports the given option.",
+            "itemtype": "method",
+            "name": "hasOption",
+            "params": [
+                {
+                    "name": "option",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 119,
+            "description": "Resets the widget to it's original state before it was initialized. This\nwill teardown any registered events and be removed from the Soysauce collection\nof widgets.",
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 138,
+            "description": "Removes itself from the DOM. This also will teardown any registered events\nand be removed from the Soysauce collection of widgets.",
+            "itemtype": "method",
+            "name": "destroy",
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 160,
+            "description": "Freezes the widget, stifling any interactions and timers.",
+            "itemtype": "method",
+            "name": "freeze",
+            "return": {
+                "description": "New value.",
+                "type": "Boolean"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 171,
+            "description": "Unfreezes the widget, allowing interactions and reactivating timers.",
+            "itemtype": "method",
+            "name": "unfreeze",
+            "return": {
+                "description": "New value.",
+                "type": "Boolean"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 182,
+            "description": "Validates the widget, ensuring syntax and usage of the widget is correct.",
+            "itemtype": "method",
+            "name": "validate",
+            "return": {
+                "description": "Throws error containing debug messages.",
+                "type": "ValidationError"
+            },
+            "class": "Widget"
+        },
+        {
+            "file": "lib/widgets/base.js",
+            "line": 192,
+            "description": "Resizes the widget; called after browser's orientation change.",
+            "itemtype": "method",
+            "name": "resize",
+            "class": "Widget"
+        }
+    ],
+    "warnings": []
+}

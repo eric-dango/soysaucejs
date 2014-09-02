@@ -1,64 +1,89 @@
-var gulp = require('gulp');
+// gulp server
 
-var concat = require('gulp-concat');
-var compass = require('gulp-compass');
-var uglify = require('gulp-uglify');
-var express = require('express');
-var path = require('path');
+// gulp release
 
-var app = express();
+  // gulp vbump
+  // gulp upload
+/*
+ * Dependencies
+ */
+var gulp      = require('gulp');
+var stylus    = require('gulp-stylus');
+var rimraf    = require('rimraf');
+var concatCss = require('gulp-concat-css');
+var concatJs  = require('gulp-concat');
+var cp        = require('child_process');
 
-// Configuration
-var PORT = 5000;
-var DEST = './public';
+/*
+ * Generate stylesheets
+ */
+gulp.task('build-css', ['clean'], function() {
+  return gulp.src('./lib/stylesheets/*.styl')
+    .pipe(stylus())
+    .pipe(concatCss('soysauce.css'))
+    .pipe(gulp.dest('./public'));
+});
 
-var paths = {
-  css: './assets/stylesheets/soysauce.scss',
-
-  stylesheets: './assets/stylesheets/soysauce/*.scss',
-
-  scripts: [
+/*
+ * Generate javascript files for the library
+ */
+gulp.task('build-js-lib', ['clean'], function() {
+  return gulp.src([
     './bower_components/fastclick/lib/fastclick.js',
-    './assets/javascript/hammer.js',
-    './assets/javascript/legacy-support.js',
-    './assets/javascript/images-loaded.js',
-    './assets/javascript/soysauce/core.js',
-    './assets/javascript/soysauce/utilities/*.js',
-    './assets/javascript/soysauce/widgets/*.js'
-  ]
-};
-
-gulp.task('compass', function() {
-  gulp.src(paths.css)
-    .pipe(compass({
-      config_file: './config.rb',
-      css: 'public',
-      sass: 'assets/stylesheets'
-    }))
-    .pipe(gulp.dest(DEST))
+    './bower_components/hammerjs/hammer.js',
+    './bower_components/imagesloaded/imagesloaded.pkgd.js',
+    './lib/head.js',
+    './lib/helpers/*.js',
+    './lib/errors.js',
+    './lib/widgets/base.js',
+    './lib/widgets/_*.js',
+    './lib/tail.js'])
+    .pipe(concatJs('soysauce.js'))
+    .pipe(gulp.dest('./public'));
 });
 
-gulp.task('scripts', function() {
-  return gulp.src(paths.scripts)
-    .pipe(concat('soysauce.js'))
-    .pipe(gulp.dest(DEST));
+/*
+ * Generate javascript files for testing
+ */
+gulp.task('build-js-tests', function() {
+  return gulp.src([
+    './tests/setup.js',
+    './tests/*/*/*.js',
+    './tests/run.js'])
+    .pipe(concatJs('testing.js'))
+    .pipe(gulp.dest('./tests'));
 });
 
-gulp.task('min scripts', function() {
-  return gulp.src(paths.scripts)
-    .pipe(concat('soysauce.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest(DEST));
+/*
+ * Generate javascript files
+ */
+gulp.task('build-js', ['build-js-lib', 'build-js-tests']);
+
+/*
+ * Clean
+ */
+gulp.task('clean', function (cb) {
+  rimraf('./public', cb);
 });
 
-gulp.task('watch', function() {
-  gulp.watch(paths.stylesheets, ['compass']);
-  gulp.watch(paths.scripts, ['scripts', 'min scripts']);
+/*
+ * Generate docs from javascript files
+ */
+gulp.task('generate-docs', function() {
+  return cp.exec('./node_modules/.bin/yuidoc ./lib');
 });
 
-gulp.task('express', function() {
-  app.use(express.static(__dirname));
-  app.listen(PORT);
+/*
+ * Compile assets
+ */
+gulp.task('build', ['build-css', 'build-js', 'generate-docs']);
+
+/*
+ * Watch
+ */
+gulp.task('watch', ['build'], function() {
+  gulp.watch('./lib/**/*', ['build']);
+  gulp.watch('./tests/**/*', ['build-js-tests']);
 });
 
-gulp.task('default', ['compass', 'scripts', 'min scripts', 'watch', 'express']);
+gulp.task('default', ['build']);

@@ -1,0 +1,13 @@
+{
+  "name": "SoysauceJS",
+  "description": "jQuery library for mobile",
+  "version": "2.0.0",
+  "url": "https://github.com/egaba88/soysaucejs",
+  "options": {
+    "outdir": "./docs",
+    "ignorePaths": ["bower_components", "public", "tests", "node_modules"],
+    "exclude": ".DS_Store, .git, gulpfile.js, bower_components, public, tests, node_modules",
+    "paths": "lib",
+    "themedir": "./node_modules/yuidocjs/themes/simple"
+  }
+}
