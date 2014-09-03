@@ -1,3 +1,6 @@
+// Run with `node api`
+// If using Heroku, a Procfile is provided which will point to this file
+
 var express = require('express');
 var data    = require('./docs/data.json'); // todo: change docs cmd to use --no-parse and move dir
 var app     = express();
