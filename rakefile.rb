@@ -11,7 +11,7 @@ task :build do
   config_file = File.join(File.dirname(__FILE__), "/config/cdn.yml")
 
   unless File.exist?(config_file)
-    abort("Soysauce: File '/config/cdn.yml' does not exist. Ask @egaba88 for the key or create your own. Aborting.")
+    abort("Soysauce: File 'config/cdn.yml' does not exist. Ask @egaba88 for the key or create your own. Aborting.")
   end
 
   # Create build directory

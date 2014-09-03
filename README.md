@@ -1,12 +1,12 @@
-# Soysauce (v1.3.29)
+# Soysauce (v1.3.30)
 Original Author: Edward Gaba
 
 Soysauce is a customizable javascript widget library. Popular widgets included are carousels and accordions. Please file any issues you find in Github and visit the [Soysauce website](http://www.soysaucejs.com/) for full documentation of the widgets:
 
 ## Installation - HTML
-* Compressed (25.43 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.29/soysauce.min.js
-* Uncompressed (46.97 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.29/soysauce.js
-* CSS (12.61 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.29/soysauce.css
+* Compressed (25.54 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.30/soysauce.min.js
+* Uncompressed (45.95 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.30/soysauce.js
+* CSS (12.61 KB) - http://divgzeiu68c7e.cloudfront.net/soysauce/v1.3.30/soysauce.css
 
 You will need to include both the CSS and JS file (use the CDN links above). jQuery is a pre-requisite and will be need to be inserted before Soysauce in the DOM.
 
@@ -25,7 +25,7 @@ You will need the following pre-requisites:
 * [compass gem](http://compass-style.org/install/)
 ```
 gem update --system
-gem install compass
+gem install compass -v 0.12.2
 ```
 
 * [bower](http://bower.io/)
